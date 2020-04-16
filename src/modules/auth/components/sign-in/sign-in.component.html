@@ -1,0 +1,25 @@
+<div class="sign-in">
+  <div class="sign-in__form" [formGroup]="signInForm">
+    <div class="sign-in__form-title">Sign In</div>
+    <div class="sign-in__form-content">
+      <div class="sign-in__form-control">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input (keydown.enter)="signIn()" formControlName="email" matInput placeholder="Email">
+        </mat-form-field>
+      </div>
+      <div class="sign-in__form-control">
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input (keydown.enter)="signIn()" formControlName="password" matInput placeholder="Password" type="password">
+        </mat-form-field>
+      </div>
+      <div class="sign-in__form-control">
+        <button mat-button color="primary" routerLink="/sign-up">create account</button>
+      </div>
+      <div class="sign-in__form-control">
+        <button (click)="signIn()" mat-raised-button color="primary" [disabled]="signInForm.invalid">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>
