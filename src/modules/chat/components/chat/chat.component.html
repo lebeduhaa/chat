@@ -1,0 +1,29 @@
+<div class="chat">
+  <div class="chat__title">
+    Firebase chat Demo
+    <button (click)="signOut()" mat-fab>
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+  <div class="chat__content">
+    <div class="chat__messages" *ngIf="messages">
+      <div class="chat__message" *ngFor="let chatMessage of messages; trackBy: trackByFn">
+        <div class="chat__message-user">
+          <app-user-icon [imgUrl]="chatMessage.user.picture"></app-user-icon>
+        </div>
+        <div class="chat__message-content-wrapper">
+          <div class="chat__message-content">{{chatMessage.content}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat__actions">
+      <mat-form-field appearance="outline">
+        <mat-label>Message</mat-label>
+        <input (keydown.enter)="sendMessage()" matInput type="text" [(ngModel)]="message">
+        <button mat-button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="clearMessage()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

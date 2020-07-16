@@ -14,11 +14,15 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
     this.initForm();
+  }
+
+  public googleAuthentication(): void {
+    this.authService.googleAuthentication();
   }
 
   public signIn(): void {

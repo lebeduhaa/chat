@@ -23,16 +23,15 @@ export class SignUpComponent {
   }
 
   public signUp(): void {
-    this.authService.signUp(
-      this.signUpForm.value.nickname,
-      this.signUpForm.value.email,
-      this.signUpForm.value.password
-    );
+    const { password, confirmPassword, ...userData } = this.signUpForm.value;
+
+    this.authService.signUp(userData);
   }
 
   private initForm(): void {
     this.signUpForm = this.formBuilder.group({
-      nickname: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],

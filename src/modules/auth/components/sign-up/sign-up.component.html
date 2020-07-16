@@ -4,8 +4,14 @@
     <div class="sign-in__form-content">
       <div class="sign-in__form-control">
         <mat-form-field>
-          <mat-label>Nickname</mat-label>
-          <input (keydown.enter)="signUp()" formControlName="nickname" matInput placeholder="Nickname">
+          <mat-label>First Name</mat-label>
+          <input (keydown.enter)="signUp()" formControlName="firstName" matInput placeholder="First Name">
+        </mat-form-field>
+      </div>
+      <div class="sign-in__form-control">
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input (keydown.enter)="signUp()" formControlName="lastName" matInput placeholder="Last Name">
         </mat-form-field>
       </div>
       <div class="sign-in__form-control">

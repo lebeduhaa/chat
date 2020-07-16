@@ -1,7 +1,5 @@
 import { ErrorHandler, Injectable} from '@angular/core';
 
-import { FirebaseError } from 'firebase';
-
 import { NotificationService } from './services/notification.service';
 import { SubjectService } from './services/subject.service';
 import { APP } from './constants';
@@ -16,7 +14,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   
   handleError(error) {
     this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
-    this.notificationService.showErrorMessage('ERROR', error.rejection.message);
+    this.notificationService.showErrorMessage('ERROR', error.message ? error.message : error.rejection.message);
   }
   
 }

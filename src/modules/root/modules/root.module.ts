@@ -13,6 +13,7 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { MaterialModule } from 'src/modules/shared/modules/material.module';
 import { GlobalErrorHandler } from 'src/modules/shared/global.error-handler';
 import { ProfileModule } from 'src/modules/profile/modules/profile.module';
+import { ChatModule } from 'src/modules/chat/module/chat.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ProfileModule } from 'src/modules/profile/modules/profile.module';
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,
     AuthModule,
+    ChatModule,
     ProfileModule
   ],
   providers: [

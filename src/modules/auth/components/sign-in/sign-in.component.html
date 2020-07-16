@@ -14,6 +14,10 @@
           <input (keydown.enter)="signIn()" formControlName="password" matInput placeholder="Password" type="password">
         </mat-form-field>
       </div>
+      <button (click)="googleAuthentication()" mat-button>
+        <img src="assets/img/google.png">
+        Sign In With Google
+      </button>
       <div class="sign-in__form-control">
         <button mat-button color="primary" routerLink="/sign-up">create account</button>
       </div>

@@ -2,3 +2,16 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+* {
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  background-color: #f1f1f1;
+  width: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #919191;
+  border-radius: 10px;
+}
