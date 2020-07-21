@@ -8,5 +8,8 @@ import { Component, Input } from '@angular/core';
 export class UserIconComponent {
 
   @Input() imgUrl: string;
-
+  @Input() firstName: string;
+  @Input() lastName: string;
+  @Input() color: string;
+  
 }

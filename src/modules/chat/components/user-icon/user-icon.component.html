@@ -1,3 +1,9 @@
-<div class="user-icon">
-  <img [src]="imgUrl">
+<div
+  class="user-icon"
+  [ngStyle]="{
+    'background-color': color ? color : 'transparent'
+  }"
+>
+  <img [src]="imgUrl" *ngIf="imgUrl">
+  <div class="user-icon__filler">{{firstName[0]}}{{lastName[0]}}</div>
 </div>

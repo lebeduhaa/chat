@@ -23,7 +23,7 @@ export class SignUpComponent {
   }
 
   public signUp(): void {
-    const { password, confirmPassword, ...userData } = this.signUpForm.value;
+    const { confirmPassword, ...userData } = this.signUpForm.value;
 
     this.authService.signUp(userData);
   }

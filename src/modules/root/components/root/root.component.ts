@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Unsubscribe } from 'src/modules/shared/classes/unsubscribe';
+import { Unsubscribe } from 'src/modules/shared/classes/unsubscribe.class';
 import { SubjectService } from 'src/modules/shared/services/subject.service';
 import { APP } from 'src/modules/shared/constants';
 

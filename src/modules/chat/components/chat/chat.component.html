@@ -1,6 +1,12 @@
 <div class="chat">
   <div class="chat__title">
-    Firebase chat Demo
+    <img class="chat__logo" src="assets/img/chat.png">
+    Firebase Chat Demo
+    <div class="chat__title-users">
+      <div class="chat__title-user" *ngFor="let user of onlineUsers">
+        <app-user-icon [color]="user.color" [firstName]="user.firstName" [lastName]="user.lastName" [imgUrl]="user.picture"  matTooltip="{{user.firstName}} {{user.lastName}}"></app-user-icon>
+      </div>
+    </div>
     <button (click)="signOut()" mat-fab>
       <mat-icon>logout</mat-icon>
     </button>
@@ -9,21 +15,31 @@
     <div class="chat__messages" *ngIf="messages">
       <div class="chat__message" *ngFor="let chatMessage of messages; trackBy: trackByFn">
         <div class="chat__message-user">
-          <app-user-icon [imgUrl]="chatMessage.user.picture"></app-user-icon>
+          <app-user-icon [color]="chatMessage.user.color" [imgUrl]="chatMessage.user.picture" [firstName]="chatMessage.user.firstName" [lastName]="chatMessage.user.lastName"></app-user-icon>
         </div>
         <div class="chat__message-content-wrapper">
-          <div class="chat__message-content">{{chatMessage.content}}</div>
+          <div class="chat__message-username">{{chatMessage.user.firstName}} {{chatMessage.user.lastName}}</div>
+          <div class="chat__message-content">
+            {{chatMessage.content}}
+            <img [src]="chatMessage.attachment">
+          </div>
         </div>
       </div>
     </div>
     <div class="chat__actions">
       <mat-form-field appearance="outline">
         <mat-label>Message</mat-label>
-        <input (keydown.enter)="sendMessage()" matInput type="text" [(ngModel)]="message">
+        <input (paste)="reactOnPaste($event)" (keydown.enter)="sendMessage()" matInput type="text" [(ngModel)]="message">
         <button mat-button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="clearMessage()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
+      <div class="chat__actions-preview" *ngIf="preview">
+        <button (click)="removeAttachment()" mat-mini-fab color="primary">
+          <mat-icon>close</mat-icon>
+        </button>
+        <img [src]="preview">
+      </div>
     </div>
   </div>
 </div>

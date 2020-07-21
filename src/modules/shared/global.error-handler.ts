@@ -13,6 +13,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
   
   handleError(error) {
+    console.error(error);
     this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
     this.notificationService.showErrorMessage('ERROR', error.message ? error.message : error.rejection.message);
   }

@@ -3,22 +3,36 @@
   padding-top: 100px;
   height: 100vh;
 
+  &__logo {
+    height: 70px;
+    margin-right: 20px;
+  }
   &__title {
+    padding-left: 30px;
     font-size: 40px;
     height: 100px;
     border-bottom: 1px solid rgb(189, 189, 189);
-    line-height: 100px;
-    text-align: center;
     box-shadow: 0 0 3px rgb(197, 197, 197);
     background-color: rgb(245, 245, 245);
     position: fixed;
     top: 0;
     width: 100%;
+    display: flex;
+    align-items: center;
     
     button {
       position: absolute;
       top: 20px;
       right: 35px;
+    }
+    &-users {
+      margin-left: 100px;
+      display: flex;
+    }
+    &-user {
+      height: 50px;
+      width: 50px;
+      margin-left: -10px;
     }
   }
   &__messages {
@@ -32,10 +46,16 @@
     word-break: break-all;
 
     &-user {
-      max-height: 40px;
-      max-width: 40px;
+      max-height: 45px;
+      max-width: 45px;
       margin-right: 20px;
       flex-basis: 10%;
+    }
+    &-username {
+      font-size: 12px;
+      color: #4e4e7b;
+      font-weight: bold;
+      margin-top: -12px;
     }
     &-content {
       padding: 5px 20px;
@@ -46,6 +66,8 @@
       display: flex;
       align-items: center;
       width: fit-content;
+      margin-bottom: 20px;
+      flex-direction: column;
 
       &::after {
         content: "";
@@ -72,8 +94,12 @@
         z-index: 2;
       }
       &-wrapper {
-        padding-top: 5px;
         flex-basis: 90%;
+      }
+      img {
+        display: block;
+        max-height: 200px;
+        max-width: 200px;
       }
     }
   }
@@ -92,9 +118,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     mat-form-field {
       width: 100%;
+    }
+    &-preview {
+      max-height: 150px;
+      max-width: 150px;
+      position: absolute;
+      bottom: 100%;
+      left: 10px;
+      box-shadow: 0 0 5px black;
+
+      img {
+        width: 100%;
+      }
+      button {
+        position: absolute;
+        right: -15px;
+        top: -15px;
+      }
     }
   }
 }

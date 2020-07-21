@@ -7,4 +7,5 @@ export interface User {
   password?: string;
   deviceToken?: string;
   isOnline?: boolean;
+  color?: string;
 }

@@ -11,23 +11,27 @@ import { RouterService } from 'src/modules/shared/services/router.service';
 import { SharedDataService } from 'src/modules/shared/services/shared-data.service';
 import { User } from 'src/modules/shared/models/user.model';
 import { GoogleAuthResponse } from 'src/modules/shared/models/google-auth-response.model';
+import { Service } from 'src/modules/shared/classes/service.class';
+import { getRandomColor } from 'src/modules/shared/helpers';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends Service {
 
   constructor(
+    protected subjectService: SubjectService,
     private firebaseAuth: AngularFireAuth,
-    private subjectService: SubjectService,
     private firebaseFireStore: AngularFirestore,
     private notificationService: NotificationService,
     private routerService: RouterService,
     private sharedDataService: SharedDataService
-  ) {}
+  ) {
+    super(subjectService);
+  }
 
   public async googleAuthentication(): Promise<void> {
-    this.subjectService.emitSubject(APP.subjects.spinnerVisibility, true);
+    this.showSpinner();
 
     const provider = new firebase.auth.GoogleAuthProvider();
     const authenticationResult: GoogleAuthResponse = <unknown>(await this.firebaseAuth.signInWithPopup(provider)).additionalUserInfo.profile as GoogleAuthResponse;
@@ -45,37 +49,40 @@ export class AuthService {
       if (!user) {
         const id = this.firebaseFireStore.createId();
 
-        await this.firebaseFireStore.collection('users').doc(id).set(userData);
+        userData.id = id;
+        await this.firebaseFireStore.collection('users').doc(id).set({id, isOnline: true, ...userData});
       } else {
         userData.id = user.data().id;
+        await this.firebaseFireStore.collection('users').doc(userData.id).update({isOnline: true});
       }
 
       this.sharedDataService.userData = userData;
       this.routerService.navigateToPage(APP.pages.chat);
-      this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
+      this.hideSpinner();
     } else {
       await this.firebaseAuth.signOut();
 
-      this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
+      this.hideSpinner();
       throw Error('Sorry, but your email is not verified');
     }
   }
 
   public async signUp(user: User): Promise<void> {
-    this.subjectService.emitSubject(APP.subjects.spinnerVisibility, true);
+    this.showSpinner();
 
     const signUpResult = await this.firebaseAuth.createUserWithEmailAndPassword(user.email, user.password);
     const id = this.firebaseFireStore.createId();
+    const { password, ...userData } = user;
 
     await signUpResult.user.sendEmailVerification();
-    await this.firebaseFireStore.collection('users').doc(id).set(user);
+    await this.firebaseFireStore.collection('users').doc(id).set({id, ...userData, color: getRandomColor()});
     this.notificationService.showSuccessMessage('Sign Up', 'Please, verify your email and sign in');
-    this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
+    this.hideSpinner();
     this.routerService.navigateToPage(APP.pages.signIn);
   }
 
   public async signIn(email: string, password: string): Promise<void> {
-    this.subjectService.emitSubject(APP.subjects.spinnerVisibility, true);
+    this.showSpinner();
 
     const signInResult = await this.firebaseAuth.signInWithEmailAndPassword(email, password);
   
@@ -83,21 +90,25 @@ export class AuthService {
       const usersSnapshot = await this.firebaseFireStore.collection('users').ref.where('email', '==', email).get();
       const userData: User = usersSnapshot.docs[0].data() as User;
 
+      await usersSnapshot.docs[0].ref.update({isOnline: true});
       this.sharedDataService.userData = userData;
       this.routerService.navigateToPage(APP.pages.chat);
-      this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
+      this.hideSpinner();
     } else {
       await this.firebaseAuth.signOut();
 
-      this.subjectService.emitSubject(APP.subjects.spinnerVisibility, false);
+      this.hideSpinner();
       throw Error('Sorry, but your email is not verified');
     }
   }
 
-  public signOut(): void {
-    this.sharedDataService.userData = null;
+  public async signOut(): Promise<void> {
+    this.showSpinner();
+    await this.firebaseFireStore.collection('users').doc(this.sharedDataService.userData.id).update({isOnline: false});
     this.firebaseAuth.signOut();
+    this.sharedDataService.userData = null;
     this.routerService.navigateToPage(APP.pages.signIn);
+    this.hideSpinner();
   }
 
 }

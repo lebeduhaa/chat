@@ -12,7 +12,7 @@ export const notifications = async (snapshot: DocumentSnapshot, context: EventCo
     const user: User = userSnapshot.data() as User;
     const message: Message = snapshot.data() as Message;
 
-    if (user.isOnline) {
+    if (user.isOnline && user.id !== message.user.id) {
       await messaging().sendToDevice(user.deviceToken, {
         notification: {
           title: 'New Message',
